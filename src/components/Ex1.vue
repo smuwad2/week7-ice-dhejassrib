@@ -4,22 +4,40 @@
         // Note: DO NOT USE "eval()". In security, "eval" is considered "evil"!!!
         data() {
             return {
-                x: '',
+                x: 0,
                 selectedOp: '',
-                y: '',
-                operators: ['+', '-', '*', '/']
+                y: 0,
+                operators: ['+', '-', '*', '/', '%']
             }
         },
         computed: {
-        result() {
-            const { x, y, selectedOp } = this;
-            if (selectedOp === '+') return x + y;
-            if (selectedOp === '-') return x - y;
-            if (selectedOp === '*') return x * y;
-            if (selectedOp === '/') return y !== 0 ? x / y : 'Error: ÷0';
-            return '';
+            result() {
+                // const { x, y, selectedOp } = this;
+                // if (selectedOp === '+') return x + y;
+                // if (selectedOp === '-') return x - y;
+                // if (selectedOp === '*') return x * y;
+                // if (selectedOp === '/') {
+                //     if (y !== 0) {
+                //         return x/y
+                //     }
+                //     else {
+                //         return  "Error"
+                //     }
+                // };
+                // if (selectedOp === '%') return x % y;
+                
+                // return y !== 0 ? x / y : 'Error: ÷0';
+                // return '';
+
+                switch(this.selectedOp) {
+                    case "+": return this.x + this.y;
+                    case "-": return this.x - this.y;
+                    case "*": return this.x * this.y;
+                    case "/": return this.x / this.y;
+                    case "%": return this.x % this.y;
+                }
+            }
         }
-    }
     }
 </script>
 
