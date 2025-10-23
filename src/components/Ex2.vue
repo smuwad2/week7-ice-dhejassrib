@@ -27,7 +27,7 @@ export default {
         <li v-for="(item, idx) in items">
             {{ item }}
             <!-- <button @click=deleteItem(idx)>Delete!</button> -->
-            <button @click="items.splice(idx)">Delete!</button>
+            <button @click="items.splice(idx, 1)">Delete!</button>
         </li>
     </ul>
 
