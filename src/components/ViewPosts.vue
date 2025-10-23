@@ -36,12 +36,41 @@ export default {
     },
     methods: {
         editPost(id) {
-            
+            // Make sure ID is stored as a number
+            const post = this.posts.find(p => p.id == id);
+            this.editPostId = post.id;
+            this.entry = post.entry;
+            this.mood = post.mood;
+            this.showEditPost = true;
         },
+
         updatePost(event) {
-            
+            event.preventDefault();
+
+            console.log("Sending update:", this.editPostId, this.entry, this.mood);
+
+            axios.post(`${this.baseUrl}/updatePost`, {
+            id: this.editPostId, // ✅ now defined
+            entry: this.entry,
+            mood: this.mood
+            })
+            .then(() => {
+            // ✅ Update post locally
+            const post = this.posts.find(p => p.id == this.editPostId);
+            if (post) {
+                post.entry = this.entry;
+                post.mood = this.mood;
+            }
+
+            this.showEditPost = false; // hide form after update
+            })
+            .catch(error => {
+            console.error(error);
+            });
         }
-    }
+        }
+
+
 }
 </script>
 
@@ -61,7 +90,8 @@ export default {
                     <td>{{ post.id }}</td>
                     <td>{{ post.entry }}</td>
                     <td>{{ post.mood }}</td>
-                    <td><button>Edit</button></td>
+                    <!-- <td><button>Edit</button></td> -->
+                    <td><button @click="editPost(post.id)">Edit</button></td>
                 </tr>
             </tbody>
 
@@ -70,7 +100,9 @@ export default {
         <div id="editPost" v-if="showEditPost">
             <h3>Edit Post</h3>
             <div id="postContent" class="mx-3">
-                <form>
+                <!-- <form @submit="updatePost"> -->
+                <form @submit.prevent="updatePost">
+                <!-- <form> -->
                     <div class="mb-3">
                         <label for="entry" class="form-label">Entry</label>
                         <textarea id="entry" class="form-control" v-model="entry" required></textarea>
